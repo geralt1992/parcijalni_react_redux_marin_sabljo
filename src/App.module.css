@@ -1,0 +1,99 @@
+.main {
+    height: 100vh;
+    background-color: #f4f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user {
+    height: 80vh;
+    border: 1px solid black;
+    padding: 3.5rem;
+    background-color: white;
+}
+
+.userWraper {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: row;
+}
+
+.user .userWraper .userImage {
+    height: 100px;
+    width: 100px;
+    margin-right: 2rem;
+    border-radius: 50%;
+}
+
+.user .userWraper h1 {
+    font-weight: 600;
+    font-size: 3rem;
+}
+
+.user .repoWraper li {
+    list-style-type: none;
+    margin-bottom: 1rem;
+}
+
+.user span {
+    font-weight: bold;
+}
+
+.user .repoItem {
+    list-style-type: none;
+    border: 1px solid black;
+    padding: .5rem;
+}
+
+.user button {
+    padding: .3rem;
+    margin-top: 1rem;
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-weight: 900;
+}
+
+
+
+
+
+
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 20vh;
+    background-color: white;
+    padding: 5rem 8rem;
+    border: 1px solid black;
+  }
+
+.form label {
+    opacity: .7;
+}
+
+.form input {
+    margin: 1rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+.form button {
+    padding: .3rem;
+    margin: 1rem;
+    width: 115%;
+    background-color: black;
+    color: white;
+    font-weight: 900;
+}
+
+.form button:hover {
+    background-color: white;
+    color: black;
+}
