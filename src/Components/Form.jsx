@@ -2,21 +2,30 @@ import React from 'react';
 import styles from '../App.module.css'
 import ShowUser from './ShowUser';
 
-function Form() {
-  //STATEs
-    const [userinput , setUserinput] = React.useState('');
-    const [trigger, setTrigger] = React.useState(true);  
-    const [us, setUs] = React.useState({});  
-    const [rep, setRep] = React.useState([]);   
+//redux
+import { useSelector , useDispatch } from 'react-redux';
+//redux
+import { setUserInput, toggle , setUrl , setRepoUrl , setUserData , setUserRepos} from './formSlice';
 
-  //STATE - URLs
-    const [userurl, setUserurl] = React.useState('');
-    const [userrepos, setUserrepos] = React.useState('');
+
+function Form() {
+  
+  //redux
+    const dispatch = useDispatch();
+  //redux
+    const trigger = useSelector((state) => state.form.trigger);
+    const userurl = useSelector((state) => state.form.userUrl);
+    const reposUrl = useSelector((state) => state.form.reposUrl);
+    const userData = useSelector((state) => state.form.userData);
+    const userRepos = useSelector((state) => state.form.userRepos);
+    const userInput = useSelector((state) => state.form.userInput);
+
 
   //API CALLs
     React.useEffect( () => {
+
       async function fetchData() {
-        const user = await fetch(userurl)
+        await fetch(userurl)
           .then((res) => res.json())
           .then((data) => {   
             let userData = {
@@ -25,44 +34,50 @@ function Form() {
               bio: data.bio,
               location: data.location
             }
-            setUs(userData);
+            //redux
+            dispatch(setUserData(userData));
         });
 
-        const repos = await fetch(userrepos)
+        await fetch(reposUrl)
           .then((res) => res.json())
           .then((data) => { 
             const repoNames = data.map((item) => {
               return item.name;
             }) 
-            setRep(repoNames); 
+            //redux
+            dispatch(setUserRepos(repoNames));
         });
       };
 
       fetchData(); 
-    
-    }, [userurl , userrepos]);
+
+    }, [userurl]);
+
+  //SHOW FORM vs USER 
+    function triggerChange() {
+      //redux
+      dispatch(toggle());
+    };
 
   //SHOW USER AND TRACK URLs
     function handelClick() { 
-      //SHOW USER DATA
-        triggerChange();
-
       //URLs
-        let _URL_USER = `https://api.github.com/users/${userinput}`;
-        let  _URL_REPOS = `https://api.github.com/users/${userinput}/repos`;
+        let _URL_USER = `https://api.github.com/users/${userInput}`;
+        let  _URL_REPOS = `https://api.github.com/users/${userInput}/repos`;
 
-        setUserurl(_URL_USER);
-        setUserrepos(_URL_REPOS);
-    };
+        //redux
+        dispatch(setUrl(_URL_USER));
+        dispatch(setRepoUrl(_URL_REPOS))
 
- //SHOW FORM vs USER 
-    function triggerChange() {
-      setTrigger(!trigger);
+      //SHOW USER
+         triggerChange();
     };
 
   //TRACK WHAT USER TYPING  
     function handelChange(e) { 
-      setUserinput(e.target.value);
+      let userInput = e.target.value;
+      //redux
+      dispatch(setUserInput(userInput));
     };
 
   return <>
@@ -74,7 +89,7 @@ function Form() {
           <button onClick={handelClick}>GO!</button>
       </form>
       ) : (
-        <ShowUser user={us} repos={rep} triggerChange={triggerChange} />
+        <ShowUser user={userData} repos={userRepos} triggerChange={triggerChange} />
       )
     }
   </>
